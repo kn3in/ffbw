@@ -33,15 +33,15 @@ split_into_blocks <- function(size_of_block, ncol_x, ncol_y) {
 }
 
 # prepare ff matrix
-reserve_space <- function(base_path, file_name, nrow_out, ncol_out, row_names, col_names, ...) {
-  final <- ff::ff(dim = c(nrow_out, ncol_out), filename = file.path(base_path, file_name), ...)   
+reserve_space <- function(base_path, file_name, nrow_out, ncol_out, row_names, col_names, vmode) {
+  final <- ff::ff(dim = c(nrow_out, ncol_out), filename = file.path(base_path, file_name), vmode = vmode)   
     rownames(final) <- row_names
     colnames(final) <- col_names
     final
 }
 
 # perform blockwise operation precisely apply arbitrary function FUN to x and y
-block_wise <- function(x, y, size_of_block, ncore, file_name, path, FUN, ...) {
+block_wise <- function(x, y, size_of_block, ncore, file_name, path, FUN, vmode = "single", ...) {
  
   nrow_final <- ncol(x)
   ncol_final <- ncol(y)
