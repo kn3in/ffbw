@@ -1,4 +1,6 @@
 # create data with NAs and a correlation structure
+source("functions.r")
+source("fishe.r")
 
 xcol <- 890
 ycol <- 340
@@ -24,14 +26,59 @@ ff_cor <- block_wise(x = x,
 	               use = "pairwise.complete.obs")
 
 ff_cor_carbon <- ff_cor[]
-attr(ff_cor_carbon, "Csingle") <- NULL
 
-all.equal(r_cor, ff_cor_carbon)
-save(ff_cor, file = file.path(tempdir(), "test_ff.RData"))
-close(ff_cor)
-rm(ff_cor)
+all.equal(r_cor, ff_cor_carbon, check.attr = FALSE)
 
-library(ff)
-load(file.path(tempdir(), "test_ff.RData"))
-open(ff_cor)
-ff_cor
+# save(ff_cor, file = file.path(tempdir(), "test_ff.RData"))
+# close(ff_cor)
+# rm(ff_cor)
+
+# library(ff)
+# load(file.path(tempdir(), "test_ff.RData"))
+# open(ff_cor)
+# ff_cor
+
+# copy
+xx <- x
+yy <- y
+
+# if missing zero, one otherwise
+xx[which(!is.na(xx), arr.ind = TRUE)] <- 1L
+xx[which(is.na(xx), arr.ind = TRUE)] <- 0L
+
+yy[which(!is.na(yy), arr.ind = TRUE)] <- 1L
+yy[which(is.na(yy), arr.ind = TRUE)] <- 0L
+
+non_missing_pairs <- crossprod(xx, yy)
+
+ff_nm <- block_wise(x = xx,
+	                y = yy,
+	    size_of_block = 100,
+	            ncore = 8,
+	        file_name = "test_nm",
+	             path = tempdir(),
+	              FUN = crossprod,
+	            vmode = "short")
+
+ff_nm_carbon <- ff_nm[]
+all.equal(non_missing_pairs, ff_nm_carbon, check.attr = FALSE)
+table(non_missing_pairs - ff_nm_carbon)
+
+pval <- fisher_to_pval(r_cor, non_missing_pairs)
+
+ff_pval <- block_wise3(x = ff_cor,
+	                   y = ff_nm,
+	       size_of_block = 100,
+	               ncore = 8,
+	           file_name = "test_pval",
+	                path = tempdir(),
+	                 FUN = fisher_to_pval,
+	               vmode = "double")
+
+ff_pval_carbon <- ff_pval[]
+all.equal(pval, ff_nm_carbon, check.attr = FALSE)
+table(pval - ff_pval_carbon)
+
+
+
+
