@@ -31,3 +31,13 @@ split_into_blocks <- function(size_of_block, ncol_x, ncol_y) {
   	list(r_ind = row_split[[x[1]]], c_ind = col_split[[x[2]]])
   })
 }
+
+# prepare ff matrix
+reserve_space <- function(base_path, file_name, nrow_out, ncol_out, row_names, col_names, ...) {
+  final <- ff(dim = c(nrow_out, ncol_out), filename = file.path(base_path, file_name), ...)   
+    rownames(final) <- row_names
+    colnames(final) <- col_names
+    final
+}
+
+
