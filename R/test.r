@@ -1,5 +1,5 @@
 # create data with NAs and a correlation structure
-# 
+
 xcol <- 890
 ycol <- 340
 n_row <- 1000
@@ -12,15 +12,14 @@ x[sample(length(x), size = 100)] <- NA
 y[sample(length(y), size = 100)] <- NA
 r_cor <- cor(x, y, use = "pairwise.complete.obs")
 #------------------------------------------------------------------------------
-library(ff)
-library(parallel)
 
-ff_cor <- block_wise2(x = x,
+ff_cor <- block_wise(x = x,
 	                  y = y,
 	      size_of_block = 100,
-	              ncore = 20,
+	              ncore = 8,
 	         file_name = "test_ff",
 	              path = tempdir(),
+	             vmode = "double",
 	               FUN = cor,
 	               use = "pairwise.complete.obs")
 
@@ -29,7 +28,10 @@ attr(ff_cor_carbon, "Csingle") <- NULL
 
 all.equal(r_cor, ff_cor_carbon)
 save(ff_cor, file = file.path(tempdir(), "test_ff.RData"))
-# in new R session
+close(ff_cor)
+rm(ff_cor)
+
 library(ff)
 load(file.path(tempdir(), "test_ff.RData"))
 open(ff_cor)
+ff_cor
