@@ -56,7 +56,8 @@ block_wise <- function(x, y, size_of_block, ncore, file_name, path, FUN, vmode =
                                  nrow_out = nrow_final,
                                  ncol_out = ncol_final,
                                 row_names = row_names,
-                                col_names = col_names)
+                                col_names = col_names,
+                                    vmode = vmode)
 
 
   parallel::mclapply(blocks, function(block) {
