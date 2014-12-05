@@ -68,3 +68,43 @@ block_wise <- function(x, y, size_of_block, ncore, file_name, path, FUN, vmode =
   
   final_matrix
 }
+
+# we have x and y matrices as input(specifically big ff matrices),
+# e.g. x is a correlation matrix, y is a matrix of non-missing values
+# we would like to calculate matrix of p-values by applying
+# a function(fisher Z transform and pnorm) to blocks of x and y i.e x, y adn resulting matrix all have the same dimensions
+
+block_wise3 <- function(x, y, size_of_block, ncore, file_name, path, FUN, vmode = "single", ...) {
+ # add checks
+  nrow_final <- nrow(x)
+  ncol_final <- ncol(x)
+  
+  row_names <- rownames(x)
+  col_names <- colnames(x)
+  
+  blocks <- split_into_blocks(size_of_block = size_of_block, ncol_x = nrow_final, ncol_y = ncol_final)
+  
+  final_matrix <- reserve_space(base_path = path,
+                                file_name = file_name,
+                                 nrow_out = nrow_final,
+                                 ncol_out = ncol_final,
+                                row_names = row_names,
+                                col_names = col_names,
+                                    vmode = vmode)
+
+
+  parallel::mclapply(blocks, function(block) {
+      row_bl <- block$r_ind
+      col_bl <- block$c_ind
+
+      final_vmode <- ff::vmode(final_matrix)
+      a <- x[row_bl, col_bl]
+      b <- y[row_bl, col_bl]
+      ff::vmode(a) <- final_vmode
+      ff::vmode(b) <- final_vmode
+      
+      final_matrix[row_bl, col_bl] <- FUN(a, b, ...)
+  }, mc.cores = ncore)
+  
+  final_matrix
+}
