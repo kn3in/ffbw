@@ -8,3 +8,4 @@ Depends: R (>= 3.1.0)
 Imports: ff
 License: GPL-2
 URL: https://github.com/kn3in/ffbw
+Suggests: testthat
