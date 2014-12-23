@@ -1,9 +1,10 @@
 Package: ffbw
 Title: Blockwise Operations on ff Matrices
 Version: 0.0.1
-Authors@R: "Konstantin Shakhbazov <@gmail.com> [aut, cre]"
+Authors@R: "'Konstantin Shakhbazov <konstantin.shakhbazov@gmail.com> [aut, cre]'"
 Description: Blockwise operations on ff matrices:
- utilize multiple cores to process input and/or matrices too big to fit into RAM. 
+ utilize multiple cores to process input and/or output matrices too big to fit into RAM. 
 Depends: R (>= 3.1.0)
 Imports: ff
 License: GPL-2
+URL: https://github.com/kn3in/ffbw
