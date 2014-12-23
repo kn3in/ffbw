@@ -18,7 +18,7 @@ y[sample(length(y), size = 100)] <- NA
 # apply-at-once
 r_cor <- cor(x, y, use = "pairwise.complete.obs")
 
-ncores <- parallel::detectCores()
+ncores <- min(parallel::detectCores(), 2)
 
 # block-wise
 ff_cor <- block_wise(x = x,
@@ -35,5 +35,5 @@ ff_cor <- block_wise(x = x,
 ff_cor_carbon <- ff_cor[]
 
 test_that("block_wise and apply-function-at-once give the same results", {
-  expect_equal(r_cor, ff_cor_carbon)
+  expect_equal(r_cor, ff_cor_carbon, check.attr = FALSE)
 })
