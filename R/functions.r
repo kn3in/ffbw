@@ -40,7 +40,24 @@ reserve_space <- function(base_path, file_name, nrow_out, ncol_out, row_names, c
     final
 }
 
-# perform blockwise operation precisely apply arbitrary function FUN to x and y
+#'<brief desc>
+#' perform blockwise operation by applying function FUN to x and y
+#'<full description>
+#' @param  x matrix
+#' @param  y matrix 
+#' @param  size_of_block size of a block final matrix will be split into
+#' @param  ncore number of cores to use for block wise operations
+#' @param  file_name name of the file to hold final ff matrix 
+#' @param  path directory where the ff matrix will be stored
+#' @param  FUN function to apply
+#' @param  vmode = "single" storage mode for the final ff matrix
+#' @param  ... other parameters, will be passed to FUN
+#' @export
+#' @seealso \code{\link[ff]{ff}}
+#' @return ff matrix
+#' @examples \dontrun{
+#'
+#'}
 block_wise <- function(x, y, size_of_block, ncore, file_name, path, FUN, vmode = "single", ...) {
  
   nrow_final <- ncol(x)
