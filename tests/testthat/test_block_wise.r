@@ -18,11 +18,13 @@ y[sample(length(y), size = 100)] <- NA
 # apply-at-once
 r_cor <- cor(x, y, use = "pairwise.complete.obs")
 
+ncores <- parallel::detectCores()
+
 # block-wise
 ff_cor <- block_wise(x = x,
-	                  y = y,
-	      size_of_block = 100,
-	              ncore = 8,
+	                 y = y,
+	     size_of_block = 100,
+	             ncore = ncores,
 	         file_name = "test_ff",
 	              path = tempdir(),
 	             vmode = "double",
