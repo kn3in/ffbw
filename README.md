@@ -1,6 +1,8 @@
 ffbw
 ====
 
+[![Build Status](https://travis-ci.org/kn3in/ffbw.png?branch=master)](https://travis-ci.org/kn3in/ffbw)
+
 R package for blockwise operations on ff matrices
 
 ## Installation
