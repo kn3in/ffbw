@@ -40,9 +40,9 @@ reserve_space <- function(base_path, file_name, nrow_out, ncol_out, row_names, c
     final
 }
 
-#'<brief desc>
-#' perform blockwise operation by applying function FUN to x and y
-#'<full description>
+#' perform blockwise operation by applying a function FUN to x and y
+#' 
+#' perform blockwise operation by applying a function FUN to x and y
 #' @param  x matrix
 #' @param  y matrix 
 #' @param  size_of_block size of a block final matrix will be split into

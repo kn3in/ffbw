@@ -2,9 +2,7 @@
 % Please edit documentation in R/functions.r
 \name{block_wise}
 \alias{block_wise}
-\title{<brief desc>
-perform blockwise operation by applying function FUN to x and y
-<full description>}
+\title{perform blockwise operation by applying a function FUN to x and y}
 \usage{
 block_wise(x, y, size_of_block, ncore, file_name, path, FUN, vmode = "single",
   ...)
@@ -32,9 +30,7 @@ block_wise(x, y, size_of_block, ncore, file_name, path, FUN, vmode = "single",
 ff matrix
 }
 \description{
-<brief desc>
-perform blockwise operation by applying function FUN to x and y
-<full description>
+perform blockwise operation by applying a function FUN to x and y
 }
 \examples{
 \dontrun{
